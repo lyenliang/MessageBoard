@@ -1,3 +1,5 @@
+'use strict'
+
 const mysql = require('mysql')
 const dbConfig = require(`./../../config/dbConfig.${process.env.ENV}`)
 

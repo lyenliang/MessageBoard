@@ -1,3 +1,5 @@
+'use strict'
+
 const messagesDao = require('./lib/db/dao/MessagesDao')
 
 exports.handler = function (event, context, callback) {

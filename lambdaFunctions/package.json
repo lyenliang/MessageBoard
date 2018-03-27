@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "date-time": "^2.1.0",
     "mysql": "^2.15.0"
   }
 }
