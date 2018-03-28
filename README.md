@@ -1,6 +1,8 @@
 # Message Board
 
-This project is built intended for practicing API gateway, lambda functions, RDS, and docker.
+A simple message board where anyone can edit any messages on the board.
+
+This project is built for practicing API gateway, lambda functions, RDS, and docker.
 
 ### Architecture
 

@@ -13,42 +13,57 @@ class MessagesDao {
 
   // TODO: use the techniques mentioned here(http://blog.amowu.com/2016/03/error-handling-in-aws-api-gateway-with.html) to handle errors
   create (reqBody, callback) {
-    let message
-    // validate input variables
-    try {
-      message = JSON.parse(reqBody)
-    } catch (err) {
-      console.error(err)
-      callback(err, {
-        statusCode: 400,
-        body: JSON.stringify({
-          Error: err
-        }),
-        headers: {
-          'Access-Control-Allow-Origin': '*'
-        }
-      })
+    let message = this._parseReqBody(reqBody, callback)
+    if (message === false) {
+      // something goes wrong with the validation
       return
     }
 
     const utcDateTime = dateTime({local: false})
     let sql = `INSERT INTO Messages (content, author, isDeleted, createdAt, updatedAt) \
       VALUES ('${message.content}', '${message.author}', false, '${utcDateTime}', '${utcDateTime}')`
-    this._executeSql(sql, callback)
+    this._executeSql(sql, false, callback)
   }
 
   read (callback) {
-    let sql = 'SELECT * FROM Messages WHERE isDeleted = 0;'
-    this._executeSql(sql, callback)
+    let sql = 'SELECT id, content, author, createdAt FROM Messages WHERE isDeleted = 0;'
+    this._executeSql(sql, true, callback)
   }
 
   update (id, reqBody, callback) {
     // input variables validation
+    let message = this._parseReqBody(reqBody, callback)
+    if (message === false) {
+      // something goes wrong with the validation
+      return
+    }
+    const utcDateTime = dateTime({local: false})
+    let sql = `UPDATE Messages SET content = '${message.content}', author = '${message.author}', updatedAt = '${utcDateTime}' WHERE id = ${id};`
+    this._executeSql(sql, false, callback)
+  }
+
+  delete (id, callback) {
+    let sql = `UPDATE Messages SET isDeleted = true WHERE id = ${id};`
+    this._executeSql(sql, false, callback)
+  }
+
+  _parseReqBody (reqBody, callback) {
     let message
     try {
       message = JSON.parse(reqBody)
+      return message
     } catch (err) {
       console.error(err)
+      const utcDateTime = dateTime({
+        local: false, 
+        showTimeZone: true
+      });
+      let res = {
+        Status: 'Failure',
+        ErrorMessage: `Request message is not json formatted. ${err}`,
+        Data: null,
+        TimeStamp: utcDateTime       
+      }
       callback(err, {
         statusCode: 400,
         body: JSON.stringify({
@@ -58,19 +73,11 @@ class MessagesDao {
           'Access-Control-Allow-Origin': '*'
         }
       })
-      return
+      return false
     }
-    const utcDateTime = dateTime({local: false})
-    let sql = `UPDATE Messages SET content = '${message.content}', author = '${message.author}', updatedAt = '${utcDateTime}' WHERE id = ${id};`
-    this._executeSql(sql, callback)
   }
 
-  delete (id, callback) {
-    let sql = `UPDATE Messages SET isDeleted = true WHERE id = ${id};`
-    this._executeSql(sql, callback)
-  }
-
-  _executeSql (sql, callback) {
+  _executeSql (sql, returnResult, callback) {
     try {
       dbConn.query(sql, (err, result, fields) => {
         if (err) {
@@ -79,9 +86,19 @@ class MessagesDao {
           callback(err)
         } else {
           console.log(result)
+          const utcDateTime = dateTime({
+            local: false, 
+            showTimeZone: true
+          });
+          const res = {
+            Status: 'Success',
+            ErrorMessage: null,
+            Data: returnResult ? result : null,
+            TimeStamp: utcDateTime
+          }
           callback(null, {
             statusCode: 200,
-            body: JSON.stringify(result),
+            body: JSON.stringify(res),
             headers: {
               'Access-Control-Allow-Origin': '*'
             }
