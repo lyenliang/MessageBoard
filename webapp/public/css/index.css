@@ -1,0 +1,39 @@
+
+h1{
+	text-align:center;
+	margin-bottom:15px;
+}
+
+body {
+    background: #71afdb;
+}
+
+input, textarea {
+    border: 1px solid #fcfcfc;
+    border-radius: 5px;
+    padding: 3px 5px;
+    outline: none;
+    color: #333;
+}
+
+.author {
+	color:#76d37c;
+}
+
+.msgId {
+	display: none;
+}
+
+.para_wrap {
+    text-align: right;
+    font-size: 12px;
+    line-height: 2;
+    color: #E9E9E9;
+    border-top: 1px dashed #fcfcfc;
+    margin-top: 5px;
+}
+
+span[class^='author_'] {
+    word-wrap: break-word;
+    color: #76d37c;
+}
