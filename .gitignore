@@ -1,1 +1,3 @@
 webapp/node_modules/*
+lambdaFunctions/node_modules/*
+lambdaFunctions/deploymentPackages/*.zip

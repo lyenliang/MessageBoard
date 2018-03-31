@@ -1,0 +1,15 @@
+{
+  "name": "lambda-functions",
+  "version": "1.0.0",
+  "description": "Lambda functions for CRUD operations",
+  "main": "readMessages.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "date-time": "^2.1.0",
+    "mysql": "^2.15.0"
+  }
+}
