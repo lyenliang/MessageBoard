@@ -2,7 +2,7 @@ var updateMessageDialog
 var messageDisplayer = document.getElementById('messageDisplayer')
 
 function loadOldDataIntoUpdateDialog (updateBtn) {
-  var msgClassName = updateBtn.parentNode.className
+  var msgClassName = updateBtn.parentNode.parentNode.className
   var msgId = msgClassName.slice(6) // 6 is the length of 'msgId_'
   var oldAuthor = $('.author_' + msgId).text()
   var oldContent = $('.content_' + msgId).text()
@@ -22,6 +22,9 @@ function assembleMessage (message) {
   var para = document.createElement('p')
   para.className = 'para_wrap'
 
+  var buttonsPara = document.createElement('p')
+  buttonsPara.className = 'para_button_wrap'
+
   var authorSpan = document.createElement('span')
   authorSpan.className = 'author'
   authorSpan.innerText = message.author
@@ -38,6 +41,7 @@ function assembleMessage (message) {
   var deleteBtn = document.createElement('input')
   deleteBtn.type = 'button'
   deleteBtn.value = 'Delete'
+  deleteBtn.className = 'delete-button'
   deleteBtn.addEventListener('click', function () {
     deleteMessage(message.id)
   })
@@ -45,24 +49,23 @@ function assembleMessage (message) {
   var updateBtn = document.createElement('input')
   updateBtn.type = 'button'
   updateBtn.value = 'Update'
-  updateBtn.className = 'updateClass'
+  updateBtn.className = 'update-button'
   updateBtn.addEventListener('click', function () {
     loadOldDataIntoUpdateDialog(updateBtn)
     updateMessageDialog.dialog('open')
   })
 
-  // var bottomLine = document.createElement('br')
-
   para.appendChild(authorSpan)
   para.appendChild(postedAtSpan)
   para.appendChild(timeSpan)
 
+  buttonsPara.appendChild(deleteBtn)
+  buttonsPara.appendChild(updateBtn)
+
   msgBox.appendChild(contentBox)
   msgBox.appendChild(para)
-  msgBox.appendChild(deleteBtn)
-  msgBox.appendChild(updateBtn)
-  // msgBox.appendChild(bottomLine)
-  // msgBox.parentNode.insertBefore(bottomLine)
+  msgBox.appendChild(buttonsPara)
+
   return msgBox
 }
 
@@ -82,10 +85,8 @@ function createMessage (author, content) {
       content: content
     }),
     success: function (response) {
+      // reload so that the new message can be displayed
       location.reload()
-    // alert(response)
-    // var message = assembleMessage()
-    // messageDisplayer
     }
   })
 }
@@ -107,8 +108,6 @@ function updateMessage () {
       updateMessageDialog.dialog('close')
     }
   })
-// alert(id)
-// alert(id)
 }
 
 function deleteMessage (id) {
