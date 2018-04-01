@@ -1,8 +1,11 @@
 'use strict'
 
-const messagesDao = require('./lib/db/dao/MessagesDao')
-
 exports.handler = function (event, context, callback) {
+  // Declare messagesDao inside handler in order stop reusing mysql connection
+  // This avoids "cannot enqueue Query after fatal error" problem
+  // reference: https://www.jeremydaly.com/reuse-database-connections-aws-lambda/
+  const messagesDao = require('./lib/db/dao/MessagesDao')
+
   context.callbackWaitsForEmptyEventLoop = false
 
   console.log('event.httpMethod:', event.httpMethod)

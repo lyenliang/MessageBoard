@@ -116,37 +116,33 @@ class MessagesDao {
   }
 
   _executeSql (sql, returnResult, callback) {
-    try {
-      dbConn.query(sql, (err, result, fields) => {
-        if (err) {
-          dbConn.end()
-          console.error(err)
-          callback(err)
-        } else {
-          console.log(result)
-          const utcDateTime = dateTime({
-            local: false,
-            showTimeZone: true
-          })
-          const res = {
-            Status: 'Success',
-            ErrorMessage: null,
-            Data: returnResult ? result : null,
-            TimeStamp: utcDateTime
-          }
-          callback(null, {
-            statusCode: 200,
-            body: JSON.stringify(res),
-            headers: {
-              'Access-Control-Allow-Origin': '*'
-            }
-          })
+    dbConn.query(sql, (err, result, fields) => {
+      if (err) {
+        // dbConn.end()
+        console.error(err)
+        callback(err)
+      } else {
+        // dbConn.end()
+        console.log(result)
+        const utcDateTime = dateTime({
+          local: false,
+          showTimeZone: true
+        })
+        const res = {
+          Status: 'Success',
+          ErrorMessage: null,
+          Data: returnResult ? result : null,
+          TimeStamp: utcDateTime
         }
-      })
-    } catch (err) {
-      // Avoid keeping getting 'Cannot enqueue Query after invoking quit' error
-      dbConn.end()
-    }
+        callback(null, {
+          statusCode: 200,
+          body: JSON.stringify(res),
+          headers: {
+            'Access-Control-Allow-Origin': '*'
+          }
+        })
+      }
+    })
   }
 }
 

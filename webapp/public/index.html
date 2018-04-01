@@ -9,41 +9,42 @@
     <title>Message Board</title>
 </head>
 <body>
-    
-    <div id="update-form" title="Create new user">
-    <p class="validateTips">All form fields are required.</p> 
-    <form>
-        <fieldset>
-        <label id="message-id" style="display:none"></label>
-        <label for="message-author">Your Name</label>
-        <br>
-        <input type="text" id="message-author" value="" class="text ui-widget-content ui-corner-all">
-        <br>
-        <label for="message-content">Message Content</label>
-        <br>
-        <textarea rows="4" cols="50" id="message-content"></textarea>
-        <!--<input type="text" id="message-content" value="" class="text ui-widget-content ui-corner-all">-->
-    
-        <!-- Allow form submission with keyboard without duplicating the dialog button -->
-        <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
-        </fieldset>
-    </form>
-    </div>
+    <div class="wrap">
+        <div id="update-form" title="Create new user">
+        <p class="validateTips">All form fields are required.</p> 
+        <form>
+            <fieldset>
+            <label id="message-id" style="display:none"></label>
+            <label for="message-author">Your Name</label>
+            <br>
+            <input type="text" id="message-author" value="" class="text ui-widget-content ui-corner-all">
+            <br>
+            <label for="message-content">Message Content</label>
+            <br>
+            <textarea rows="4" cols="50" id="message-content"></textarea>
+            <!--<input type="text" id="message-content" value="" class="text ui-widget-content ui-corner-all">-->
+        
+            <!-- Allow form submission with keyboard without duplicating the dialog button -->
+            <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+            </fieldset>
+        </form>
+        </div>
 
-    <h1>Message Board</h1>
-    <div id="root">     
+        <h1>Message Board</h1>
+        <div id="root">     
+            <br>
+            <input type="text" placeholder="Your name..." id="userName">
+            <br>
+            <br>
+            <textarea rows="4" cols="50" id="content" placeholder="Say something..."></textarea>
+            <br>
+            <input type="button" onClick="createMessage($('#userName').val(), $('#content').val())" value="Submit"/>
+        </div>
         <br>
-        <input type="text" placeholder="Your name..." id="userName">
         <br>
-        <br>
-        <textarea rows="4" cols="50" id="content" placeholder="Say something..."></textarea>
-        <br>
-        <input type="button" onClick="createMessage($('#userName').val(), $('#content').val())" value="Submit"/>
-    </div>
-    <br>
-    <br>
-    <div id="messageDisplayer">
+        <div id="messageDisplayer">
 
+        </div>
     </div>
     
     <script src="js/config.js"></script>

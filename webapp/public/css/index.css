@@ -37,3 +37,20 @@ span[class^='author_'] {
     word-wrap: break-word;
     color: #76d37c;
 }
+
+div[class^='msgId_'] {
+    background: #03899c;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 5px 10px;
+}
+
+.wrap {
+    margin: auto;
+    width: 600px;
+    color: #fcfcfc;
+}
+
+.para_button_wrap {
+    text-align: right;
+}
