@@ -41,7 +41,7 @@ class MessagesDao {
     })
     */
     let sql = `INSERT INTO Messages (content, author, isDeleted, createdAt, updatedAt) \
-      VALUES ('${message.content}', '${message.author}', false, '${utcDateTime}', '${utcDateTime}')`
+      VALUES (${dbConn.escape(message.content)}, ${dbConn.escape(message.author)}, false, '${utcDateTime}', '${utcDateTime}')`
     this._executeSql(sql, false, callback)
   }
 
@@ -70,7 +70,7 @@ class MessagesDao {
       return
     }
     const utcDateTime = dateTime({local: false})
-    let sql = `UPDATE Messages SET content = '${message.content}', author = '${message.author}', updatedAt = '${utcDateTime}' WHERE id = ${id};`
+    let sql = `UPDATE Messages SET content = ${dbConn.escape(message.content)}, author = ${dbConn.escape(message.author)}, updatedAt = '${utcDateTime}' WHERE id = ${id};`
     this._executeSql(sql, false, callback)
   }
 
