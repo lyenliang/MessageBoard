@@ -8,7 +8,7 @@ AWS_REGION="ap-northeast-1"
 AWS_ACCOUNT_ID="663601278082"
 REPO_NAME="message-board/develop"
 CONFIG_FILE="./config/{{ config_file }}"
-TAG="1.0.0"
+TAG="latest"
 ENV="dev"
 
 
@@ -63,4 +63,5 @@ EOF
 # ------------------------------------------------------------------------------
 
 docker swarm init
-docker stack deploy -c /docker-compose.yml api_service
+# reference: https://github.com/moby/moby/issues/34153
+docker stack deploy -c /docker-compose.yml --with-registry-auth api_service
